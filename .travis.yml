@@ -6,7 +6,7 @@ services:
 install:
   - yarn --ignore-engines
   - yarn test
-  - docker build -t turbologz/ws-flare-user-api:$TRAVIS_BUILD_NUMBER .
+  - docker build -t wsflare/ws-flare-user-api:$TRAVIS_BUILD_NUMBER .
 deploy:
   - provider: script
     script: docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" && docker push wsflare/ws-flare-user-api
