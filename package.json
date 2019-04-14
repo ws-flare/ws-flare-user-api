@@ -23,12 +23,13 @@
     "tslint": "lb-tslint",
     "tslint:fix": "npm run tslint -- --fix",
     "pretest": "npm run clean && npm run build",
-    "test": "cross-env JWT_SECRET=test lb-mocha --allow-console-logs \"dist/test\"",
+    "test": "nyc --reporter=text-summary --reporter=html cross-env JWT_SECRET=test lb-mocha --allow-console-logs \"dist/test\"",
     "test:dev": "lb-mocha --allow-console-logs dist/test/**/*.js && npm run posttest",
     "prestart": "npm run build",
     "start": "node .",
     "prepublishOnly": "npm run test",
-    "kube": "telepresence --swap-deployment test-unicron-user-api --expose 3000 --run cross-env PORT=3000 yarn start"
+    "kube": "telepresence --swap-deployment test-unicron-user-api --expose 3000 --run cross-env PORT=3000 yarn start",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git"
@@ -65,6 +66,8 @@
     "@types/node": "^10.11.2",
     "@types/passport": "^0.4.6",
     "@types/passport-http": "^0.3.6",
-    "cross-env": "^5.2.0"
+    "coveralls": "^3.0.3",
+    "cross-env": "^5.2.0",
+    "nyc": "^13.3.0"
   }
 }

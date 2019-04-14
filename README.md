@@ -1,4 +1,3 @@
 # ws-flare-user-api
 
-[![LoopBack](https://github.com/strongloop/loopback-next/raw/master/docs/site/imgs/branding/Powered-by-LoopBack-Badge-(blue)-@2x.png)](http://loopback.io/)
-
+[![Coverage Status](https://coveralls.io/repos/github/ws-flare/ws-flare-user-api/badge.svg?branch=master)](https://coveralls.io/github/ws-flare/ws-flare-user-api?branch=master)
