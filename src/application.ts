@@ -1,14 +1,14 @@
-import {BootMixin} from '@loopback/boot';
-import {ApplicationConfig} from '@loopback/core';
-import {RepositoryMixin} from '@loopback/repository';
-import {RestApplication} from '@loopback/rest';
-import {ServiceMixin} from '@loopback/service-proxy';
+import { BootMixin } from '@loopback/boot';
+import { ApplicationConfig } from '@loopback/core';
+import { RepositoryMixin } from '@loopback/repository';
+import { RestApplication } from '@loopback/rest';
+import { ServiceMixin } from '@loopback/service-proxy';
 import {
     AuthenticationComponent,
     AuthenticationBindings,
 } from '@loopback/authentication';
-import {MySequence} from './sequence';
-import {AuthStrategyProvider} from './providers/auth-strategy.provider';
+import { MySequence } from './sequence';
+import { AuthStrategyProvider } from './providers/auth-strategy.provider';
 
 const {JWT_SECRET} = process.env;
 
@@ -27,6 +27,11 @@ export class UnicronUserApiApplication extends BootMixin(
 
         this.component(AuthenticationComponent);
         this.bind(AuthenticationBindings.STRATEGY).toProvider(AuthStrategyProvider);
+
+        this.bind('mysql.host').to(options.mysqlHost);
+        this.bind('mysql.port').to(options.mysqlPort);
+        this.bind('mysql.username').to(options.mysqlUsername);
+        this.bind('mysql.password').to(options.mysqlPassword);
 
         // Customize @loopback/boot Booter Conventions here
         this.bootOptions = {

@@ -1,20 +1,24 @@
-import {Client, expect} from '@loopback/testlab';
-import {UnicronUserApiApplication} from '../..';
-import {setupApplication, givenEmptyDatabase} from '../test-helper';
-import {UserRepository} from '../../src/repositories';
-import {TestDataSource} from '../../src/datasources';
-import {UserController} from '../../src/controllers';
-import {User} from '../../src/models';
-import {UserProfile} from '@loopback/authentication';
+import { Client, expect } from '@loopback/testlab';
+import { UnicronUserApiApplication } from '../..';
+import { setupApplication, givenEmptyDatabase, startMysqlContainer } from '../test-helper';
+import { UserRepository } from '../../src/repositories';
+import { TestDataSource } from '../../src/datasources';
+import { UserController } from '../../src/controllers';
+import { User } from '../../src/models';
+import { UserProfile } from '@loopback/authentication';
 import { verify } from 'jsonwebtoken';
 
 describe('UserController', () => {
     let app: UnicronUserApiApplication;
     let client: Client;
+    let container: any;
+    let port: number;
 
     before(givenEmptyDatabase);
     before('setupApplication', async () => {
-        ({app, client} = await setupApplication());
+        ({container, port} = await startMysqlContainer());
+
+        ({app, client} = await setupApplication(port));
     });
 
     after(async () => {
@@ -36,8 +40,7 @@ describe('UserController', () => {
             email: 'test@test.com',
         });
 
-        expect(await userController.create(userModel)).to.match({
-            id: '1',
+        expect(await userController.create(userModel)).to.containEql({
             username: 'testUser',
             password: 'abc123',
             email: 'test@test.com',
@@ -55,7 +58,7 @@ describe('UserController', () => {
 
         const user = await userController.create(userModel);
 
-        expect((await userController.findById(user.id)).id).to.match('1');
+        expect((await userController.findById(user.id)).username).to.match('testUser');
     });
 
     it('should be able to login', async () => {
@@ -70,10 +73,10 @@ describe('UserController', () => {
         const response = await client.post('/login').set('Authorization', 'Basic dGVzdFVzZXI6YWJjMTIz');
 
         expect(response.status).to.eql(200);
-        expect(response.body.userId).to.eql('1');
+        expect(response.body.userId).not.to.be.undefined();
         expect(response.body.token).not.to.be.undefined();
 
-        expect(verify(response.body.token, 'test')).to.containEql({userId: '1', username: 'testUser'});
+        expect(verify(response.body.token, 'test')).to.containEql({username: 'testUser'});
     });
 
     it('should be able to get who am I information', async () => {

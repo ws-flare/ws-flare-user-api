@@ -7,7 +7,7 @@ export class UserRepository extends DefaultCrudRepository<
   User,
   typeof User.prototype.id
 > {
-  constructor(@inject('datasources.test') dataSource: TestDataSource) {
+  constructor(@inject('datasources.mysql') dataSource: TestDataSource) {
     super(User, dataSource);
   }
 }
