@@ -5,6 +5,8 @@ services:
   - docker
 install:
   - yarn --ignore-engines
+  - docker pull mysql:5
+script:
   - yarn test
   - docker build -t wsflare/ws-flare-user-api:$TRAVIS_BUILD_NUMBER .
 
