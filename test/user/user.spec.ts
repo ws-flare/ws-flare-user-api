@@ -8,6 +8,9 @@ import { User } from '../../src/models';
 import { UserProfile } from '@loopback/authentication';
 import { verify } from 'jsonwebtoken';
 
+/**
+ * Tests for user actions
+ */
 describe('UserController', () => {
     let app: UnicronUserApiApplication;
     let client: Client;

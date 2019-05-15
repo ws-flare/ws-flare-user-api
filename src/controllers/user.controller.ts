@@ -20,11 +20,14 @@ import {
     AuthenticationBindings,
     UserProfile,
 } from '@loopback/authentication';
-import {User} from '../models';
-import {UserRepository} from '../repositories';
-import {sign} from 'jsonwebtoken';
-import {inject} from '@loopback/core';
+import { User } from '../models';
+import { UserRepository } from '../repositories';
+import { sign } from 'jsonwebtoken';
+import { inject } from '@loopback/core';
 
+/**
+ * User controller for handling requests to /users
+ */
 export class UserController {
 
     @inject('jwt.secret')
@@ -37,6 +40,9 @@ export class UserController {
     ) {
     }
 
+    /**
+     * Login endpoint
+     */
     @authenticate('BasicStrategy')
     @post('/login', {
         responses: {
@@ -55,6 +61,10 @@ export class UserController {
         }
     }
 
+    /**
+     * Sign up endpoint
+     * @param user
+     */
     @post('/users', {
         responses: {
             '200': {
@@ -67,6 +77,10 @@ export class UserController {
         return await this.userRepository.create(user);
     }
 
+    /**
+     * Count users endpoint
+     * @param where - Filter users
+     */
     @authenticate('BasicStrategy')
     @get('/users/count', {
         responses: {
@@ -82,6 +96,10 @@ export class UserController {
         return await this.userRepository.count(where);
     }
 
+    /**
+     * Find a user endpoint
+     * @param filter - Filter by attributes
+     */
     @authenticate('BasicStrategy')
     @get('/users', {
         responses: {
@@ -101,6 +119,12 @@ export class UserController {
         return await this.userRepository.find(filter);
     }
 
+    /**
+     * Batch update users
+     *
+     * @param user - User
+     * @param where - Filter
+     */
     @patch('/users', {
         responses: {
             '200': {
@@ -116,6 +140,10 @@ export class UserController {
         return await this.userRepository.updateAll(user, where);
     }
 
+    /**
+     * Find a user by user id
+     * @param id - The user id
+     */
     @authenticate('BasicStrategy')
     @get('/users/{id}', {
         responses: {
@@ -129,6 +157,11 @@ export class UserController {
         return await this.userRepository.findById(id);
     }
 
+    /**
+     * Updated attributes of a user
+     * @param id - User id
+     * @param user - User
+     */
     @authenticate('BasicStrategy')
     @patch('/users/{id}', {
         responses: {
@@ -144,6 +177,10 @@ export class UserController {
         await this.userRepository.updateById(id, user);
     }
 
+    /**
+     * Delete a user by id
+     * @param id - The user id
+     */
     @authenticate('BasicStrategy')
     @del('/users/{id}', {
         responses: {

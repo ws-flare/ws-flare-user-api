@@ -13,6 +13,9 @@ import {AuthenticationBindings, AuthenticateFn} from '@loopback/authentication';
 
 const SequenceActions = RestBindings.SequenceActions;
 
+/**
+ * Required by loopback framework for setting up sequences
+ */
 export class MySequence implements SequenceHandler {
   constructor(
     @inject(SequenceActions.FIND_ROUTE) protected findRoute: FindRoute,

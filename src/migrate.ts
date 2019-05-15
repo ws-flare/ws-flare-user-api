@@ -1,5 +1,8 @@
 import { UnicronUserApiApplication } from './application';
 
+/**
+ * Auto migrates mysql database and auto-creates tables
+ */
 export async function migrate(args: string[]) {
     const existingSchema = args.includes('--rebuild') ? 'drop' : 'alter';
     console.log('Migrating schemas (%s existing schema)', existingSchema);

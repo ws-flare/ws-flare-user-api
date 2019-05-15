@@ -12,6 +12,9 @@ import { AuthStrategyProvider } from './providers/auth-strategy.provider';
 
 const {JWT_SECRET} = process.env;
 
+/**
+ * Bootstraps the application and sets up dependency injection
+ */
 export class UnicronUserApiApplication extends BootMixin(
     ServiceMixin(RepositoryMixin(RestApplication)),
 ) {

@@ -2,6 +2,9 @@ import { inject } from '@loopback/core';
 import { juggler } from '@loopback/repository';
 import { config } from './mysql.datasource-config';
 
+/**
+ * Datasource for connection to MySQL
+ */
 export class MysqlDataSource extends juggler.DataSource {
   static dataSourceName = 'mysql';
 

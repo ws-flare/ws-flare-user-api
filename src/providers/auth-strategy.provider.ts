@@ -10,6 +10,9 @@ import {repository} from '@loopback/repository';
 import {ExtractJwt, Strategy, StrategyOptions} from 'passport-jwt';
 import {User} from '../models';
 
+/**
+ * Provides JWT security for endpoints
+ */
 export class AuthStrategyProvider implements Provider<Strategy | undefined> {
 
     private JWTOpts: StrategyOptions;
@@ -27,6 +30,9 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
         };
     }
 
+    /**
+     * Select the correct authentication method
+     */
     value(): ValueOrPromise<Strategy | undefined> {
         if (!this.metadata) {
             return undefined;
@@ -47,6 +53,12 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
         }
     }
 
+    /**
+     * Verifies that a user has correct username and password
+     * @param username - The username
+     * @param password - The password
+     * @param cb - Callback
+     */
     async verifyBasic(
         username: string,
         password: string,
@@ -67,6 +79,11 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
         }
     }
 
+    /**
+     * Verifies that users JWT token is correct
+     * @param jwt_payload
+     * @param cb - Callback
+     */
     async verifyJWT(
         jwt_payload: User,
         cb: (err: Error | null, user?: UserProfile | false) => void,
